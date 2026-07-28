@@ -1,0 +1,31 @@
+name: Build VST3
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: {}
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure (CMake)
+        run: cmake -B build -A x64
+
+      - name: Build (Release)
+        run: cmake --build build --config Release
+
+      - name: Locate built VST3
+        run: |
+          Get-ChildItem -Recurse -Filter "*.vst3" build
+
+      - name: Upload VST3 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AntiEchoVST-vst3
+          path: build/**/*.vst3
+          if-no-files-found: error
