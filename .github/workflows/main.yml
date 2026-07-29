@@ -13,8 +13,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure (CMake)
-        run: cmake -B build -A x64
+      　- name: Configure (CMake)
+        run: cmake -S AntiEchoVST -B build -A x64
 
       - name: Build (Release)
         run: cmake --build build --config Release
